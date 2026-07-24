@@ -2,17 +2,30 @@
   "name": "scento-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "server": "node server.js",
+    "client": "npm --prefix scento-frontend run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+   "seed": "node src/seed/perfumeSeed.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.2",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.4.0",
+    "mongoose": "^8.24.1",
+    "tailwindcss": "^4.3.2"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
   }
 }
