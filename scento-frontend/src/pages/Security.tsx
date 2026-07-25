@@ -35,7 +35,6 @@ const [oldPassword,setOldPassword] = useState("");
 
 const [newPassword,setNewPassword] = useState("");
 
-const [showPassword,setShowPassword] = useState(false);
 
 
 
