@@ -8,7 +8,7 @@
     "server": "node server.js",
     "client": "npm --prefix scento-frontend run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-   "seed": "node src/seed/perfumeSeed.js"
+    "seed": "node src/seed/perfumeSeed.js"
   },
   "keywords": [],
   "author": "",

@@ -4,16 +4,14 @@ import { useState } from "react";
 import type { CSSProperties } from "react";
 
 
-function Navbar(){
+function Navbar() {
 
 
-const {cart}=useCart();
+const { cart } = useCart();
 
-const navigate=useNavigate();
+const navigate = useNavigate();
 
-
-const [menu,setMenu]=useState(false);
-
+const [menu, setMenu] = useState(false);
 
 
 const user = JSON.parse(
@@ -22,13 +20,13 @@ localStorage.getItem("user") || "null"
 
 
 
-
-
-const logout=()=>{
+const logout = () => {
 
 localStorage.removeItem("user");
 
-navigate("/");
+localStorage.removeItem("token");
+
+navigate("/login");
 
 window.location.reload();
 
@@ -36,9 +34,14 @@ window.location.reload();
 
 
 
+const isAdmin =
+user &&
+(user.role === "admin" || user.role === "owner");
 
 
-return(
+
+return (
+
 
 <nav style={navbarStyle}>
 
@@ -46,11 +49,14 @@ return(
 <div style={containerStyle}>
 
 
+
 <Link
 to="/"
 style={logoStyle}
 >
+
 SCENTO
+
 </Link>
 
 
@@ -61,7 +67,7 @@ SCENTO
 
 style={{
 ...menuStyle,
-display:menu ? "flex" : "none"
+display: menu ? "flex" : "none"
 }}
 
 >
@@ -72,9 +78,11 @@ HOME
 </Link>
 
 
+
 <Link to="/collections" style={linkStyle}>
 COLLECTIONS
 </Link>
+
 
 
 <Link to="/category/perfumes" style={linkStyle}>
@@ -82,9 +90,11 @@ PERFUMES
 </Link>
 
 
+
 <Link to="/category/candles" style={linkStyle}>
 CANDLES
 </Link>
+
 
 
 <Link to="/category/soaps" style={linkStyle}>
@@ -92,7 +102,17 @@ SOAPS
 </Link>
 
 
-</div><div style={rightStyle}>
+</div>
+
+
+
+
+
+
+
+<div style={rightStyle}>
+
+
 
 
 <Link
@@ -119,31 +139,75 @@ style={cartStyle}
 
 
 
+
 {
 
 user ?
 
-
 <>
-
-<span style={userStyle}>
-
-👤 {user.name}
-
-</span>
 
 
 <Link
 
-to="/my-orders"
+to="/account"
+
+style={{
+...userStyle,
+textDecoration:"none",
+cursor:"pointer"
+}}
+
+>
+
+👤 {user.name}
+
+</Link>
+
+
+
+
+
+<Link
+
+to="/account"
 
 style={linkStyle}
 
 >
 
-MY ORDERS
+MY ACCOUNT
 
 </Link>
+
+
+
+
+
+
+
+{
+
+isAdmin &&
+
+<Link
+
+to="/admin-orders"
+
+style={{
+...linkStyle,
+color:"#d4af37",
+fontWeight:"bold"
+}}
+
+>
+
+⭐ ADMIN PANEL
+
+</Link>
+
+}
+
+
 
 
 
@@ -158,6 +222,7 @@ style={logoutButton}
 Logout
 
 </button>
+
 
 
 </>
@@ -182,6 +247,7 @@ LOGIN
 
 
 
+
 <Link
 
 to="/register"
@@ -194,6 +260,7 @@ REGISTER
 
 </Link>
 
+
 </>
 
 
@@ -203,9 +270,11 @@ REGISTER
 
 
 
+
+
 <button
 
-onClick={()=>setMenu(!menu)}
+onClick={() => setMenu(!menu)}
 
 style={mobileButton}
 
@@ -214,7 +283,6 @@ style={mobileButton}
 ☰
 
 </button>
-
 
 
 
@@ -236,7 +304,9 @@ style={mobileButton}
 
 
 
-const navbarStyle:CSSProperties = {
+
+
+const navbarStyle: CSSProperties = {
 
 
 position:"sticky",
@@ -251,13 +321,14 @@ backdropFilter:"blur(15px)",
 
 borderBottom:"1px solid rgba(212,175,55,.25)"
 
+
 };
 
 
 
 
 
-const containerStyle:CSSProperties = {
+const containerStyle: CSSProperties = {
 
 
 maxWidth:"1400px",
@@ -274,13 +345,14 @@ justifyContent:"space-between",
 
 gap:"30px"
 
+
 };
 
 
 
 
 
-const logoStyle:CSSProperties = {
+const logoStyle: CSSProperties = {
 
 
 color:"#d4af37",
@@ -293,13 +365,14 @@ fontWeight:300,
 
 letterSpacing:"10px"
 
+
 };
 
 
 
 
 
-const menuStyle:CSSProperties = {
+const menuStyle: CSSProperties = {
 
 
 display:"flex",
@@ -308,13 +381,14 @@ gap:"30px",
 
 alignItems:"center"
 
+
 };
 
 
 
 
 
-const linkStyle:CSSProperties = {
+const linkStyle: CSSProperties = {
 
 
 color:"#eee",
@@ -325,13 +399,14 @@ fontSize:"13px",
 
 letterSpacing:"2px"
 
+
 };
 
 
 
 
 
-const rightStyle:CSSProperties = {
+const rightStyle: CSSProperties = {
 
 
 display:"flex",
@@ -340,13 +415,14 @@ alignItems:"center",
 
 gap:"18px"
 
+
 };
 
 
 
 
 
-const cartStyle:CSSProperties = {
+const cartStyle: CSSProperties = {
 
 
 position:"relative",
@@ -363,13 +439,14 @@ textDecoration:"none",
 
 fontSize:"14px"
 
+
 };
 
 
 
 
 
-const cartBadge:CSSProperties = {
+const cartBadge: CSSProperties = {
 
 
 position:"absolute",
@@ -398,18 +475,22 @@ fontSize:"12px",
 
 fontWeight:"bold"
 
+
 };
 
 
 
 
 
-const userStyle:CSSProperties = {
+const userStyle: CSSProperties = {
 
 
 color:"#d4af37",
 
-fontWeight:"bold"
+fontWeight:"bold",
+
+fontSize:"14px"
+
 
 };
 
@@ -417,7 +498,7 @@ fontWeight:"bold"
 
 
 
-const registerButton:CSSProperties = {
+const registerButton: CSSProperties = {
 
 
 background:"#d4af37",
@@ -432,13 +513,14 @@ textDecoration:"none",
 
 fontWeight:"bold"
 
+
 };
 
 
 
 
 
-const logoutButton:CSSProperties = {
+const logoutButton: CSSProperties = {
 
 
 background:"transparent",
@@ -453,13 +535,14 @@ borderRadius:"20px",
 
 cursor:"pointer"
 
+
 };
 
 
 
 
 
-const mobileButton:CSSProperties = {
+const mobileButton: CSSProperties = {
 
 
 display:"none",
@@ -475,6 +558,7 @@ fontSize:"20px",
 borderRadius:"8px",
 
 cursor:"pointer"
+
 
 };
 

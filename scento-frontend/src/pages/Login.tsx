@@ -3,13 +3,9 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 
-
 function Login() {
 
-
 const navigate = useNavigate();
-
-
 
 const [email,setEmail]=useState("");
 
@@ -19,15 +15,7 @@ const [error,setError]=useState("");
 
 const [loading,setLoading]=useState(false);
 
-
-
-
-
-
-
 const handleLogin=async()=>{
-
-
 
 if(!email || !password){
 
@@ -37,16 +25,11 @@ return;
 
 }
 
-
-
 try{
-
 
 setLoading(true);
 
 setError("");
-
-
 
 const {data}=await axios.post(
 
@@ -62,13 +45,7 @@ password
 
 );
 
-
-
-
-
-
 if(data.success){
-
 
 localStorage.setItem(
 
@@ -78,8 +55,6 @@ data.token
 
 );
 
-
-
 localStorage.setItem(
 
 "user",
@@ -88,18 +63,11 @@ JSON.stringify(data.user)
 
 );
 
-
-
-
-
 navigate("/");
-
-
 
 }
 
 else{
-
 
 setError(
 
@@ -107,16 +75,11 @@ data.message || "Login Failed"
 
 );
 
-
 }
 
-
-
 }
-
 
 catch(error:any){
-
 
 setError(
 
@@ -126,31 +89,15 @@ error.response?.data?.message ||
 
 );
 
-
-
 }
-
-
 
 finally{
 
-
 setLoading(false);
-
 
 }
 
-
-
-
 };
-
-
-
-
-
-
-
 
 return (
 
@@ -162,8 +109,8 @@ subtitle="Login to your Scento account"
 
 >
 
-
 {
+
 error &&
 
 <div
@@ -190,7 +137,9 @@ textAlign:"center"
 
 </div>
 
-}<input
+}
+
+<input
 
 type="email"
 
@@ -199,7 +148,6 @@ placeholder="Email"
 value={email}
 
 onChange={(e)=>setEmail(e.target.value)}
-
 
 style={{
 
@@ -221,11 +169,6 @@ color:"white"
 
 />
 
-
-
-
-
-
 <input
 
 type="password"
@@ -236,14 +179,13 @@ value={password}
 
 onChange={(e)=>setPassword(e.target.value)}
 
-
 style={{
 
 width:"100%",
 
 padding:"14px",
 
-marginBottom:"20px",
+marginBottom:"10px",
 
 borderRadius:"10px",
 
@@ -257,62 +199,74 @@ color:"white"
 
 />
 
-
-
-
-
-
-
-<button
-
-
-onClick={handleLogin}
-
-
-
-disabled={loading}
-
-
+<div
 
 style={{
 
+display:"flex",
 
-width:"100%",
+justifyContent:"flex-end",
 
-
-padding:"14px",
-
-
-background:"#d4af37",
-
-
-color:"black",
-
-
-border:"none",
-
-
-borderRadius:"30px",
-
-
-cursor:"pointer",
-
-
-fontWeight:"bold",
-
-
-fontSize:"16px"
-
+marginBottom:"20px"
 
 }}
 
+>
 
+<Link
+
+to="/forgot-password"
+
+style={{
+
+color:"#d4af37",
+
+textDecoration:"none",
+
+fontSize:"14px"
+
+}}
 
 >
 
+Forgot Password?
 
+</Link>
+
+</div>
+
+<button
+
+onClick={handleLogin}
+
+disabled={loading}
+
+style={{
+
+width:"100%",
+
+padding:"14px",
+
+background:"#d4af37",
+
+color:"black",
+
+border:"none",
+
+borderRadius:"30px",
+
+cursor:"pointer",
+
+fontWeight:"bold",
+
+fontSize:"16px"
+
+}}
+
+>
 
 {
+
 loading
 
 ?
@@ -325,15 +279,7 @@ loading
 
 }
 
-
-
 </button>
-
-
-
-
-
-
 
 <p
 
@@ -351,8 +297,6 @@ color:"#ccc"
 
 Don't have an account?{" "}
 
-
-
 <Link
 
 to="/register"
@@ -369,23 +313,12 @@ Register
 
 </Link>
 
-
-
 </p>
-
-
-
-
-
 
 </AuthLayout>
 
-
 );
 
-
 }
-
-
 
 export default Login;

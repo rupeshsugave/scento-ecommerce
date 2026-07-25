@@ -2,57 +2,43 @@ const mongoose = require("mongoose");
 const User = require("./src/models/User");
 require("dotenv").config();
 
-
 mongoose.connect(process.env.MONGO_URI)
 
 .then(async()=>{
 
-
 const emails = [
 
-    "ADMIN_EMAIL_1",
+    "rupeshsugave@gmail.com",
 
-    "ADMIN_EMAIL_2"
+    "scento999@gmail.com"
 
 ];
-
-
 
 const result = await User.updateMany(
 
     {
-        email:{
+        email: {
             $in: emails
         }
     },
 
     {
-        role:"admin"
+        role: "admin"
     }
 
 );
 
-
-
 console.log("Admin Updated Successfully");
-
 console.log(result);
 
-
-
 process.exit();
-
 
 })
 
-
 .catch((error)=>{
-
 
 console.log(error);
 
-
 process.exit();
-
 
 });
