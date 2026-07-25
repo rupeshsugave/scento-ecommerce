@@ -1,323 +1,324 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
+import api from "../services/api";
 
 function Login() {
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-const [email,setEmail]=useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-const [password,setPassword]=useState("");
+  const [error, setError] = useState("");
 
-const [error,setError]=useState("");
+  const [loading, setLoading] = useState(false);
 
-const [loading,setLoading]=useState(false);
+  const handleLogin = async () => {
 
-const handleLogin=async()=>{
+    if (!email || !password) {
 
-if(!email || !password){
+      setError("Please fill all details");
 
-setError("Please fill all details");
+      return;
 
-return;
+    }
 
-}
+    try {
 
-try{
+      setLoading(true);
 
-setLoading(true);
+      setError("");
 
-setError("");
+      const { data } = await api.post(
 
-const {data}=await axios.post(
+        "/users/login",
 
-"http://localhost:5000/api/users/login",
+        {
 
-{
+          email,
 
-email,
+          password
 
-password
+        }
 
-}
+      );
 
-);
+      if (data.success) {
 
-if(data.success){
+        localStorage.setItem(
 
-localStorage.setItem(
+          "token",
 
-"token",
+          data.token
 
-data.token
+        );
 
-);
+        localStorage.setItem(
 
-localStorage.setItem(
+          "user",
 
-"user",
+          JSON.stringify(data.user)
 
-JSON.stringify(data.user)
+        );
 
-);
+        navigate("/");
 
-navigate("/");
+      }
 
-}
+      else {
 
-else{
+        setError(
 
-setError(
+          data.message || "Login Failed"
 
-data.message || "Login Failed"
+        );
 
-);
+      }
 
-}
+    }
 
-}
+    catch (error: any) {
 
-catch(error:any){
+      console.log(error);
 
-setError(
+      setError(
 
-error.response?.data?.message ||
+        error.response?.data?.message ||
 
-"Invalid Email or Password"
+        "Invalid Email or Password"
 
-);
+      );
 
-}
+    }
 
-finally{
+    finally {
 
-setLoading(false);
+      setLoading(false);
 
-}
+    }
 
-};
+  };
 
-return (
+  return (
 
-<AuthLayout
+    <AuthLayout
 
-title="Welcome Back 👋"
+      title="Welcome Back 👋"
 
-subtitle="Login to your Scento account"
+      subtitle="Login to your Scento account"
 
->
+    >
 
-{
+      {
 
-error &&
+        error &&
 
-<div
+        <div
 
-style={{
+          style={{
 
-background:"#8b0000",
+            background: "#8b0000",
 
-color:"white",
+            color: "white",
 
-padding:"12px",
+            padding: "12px",
 
-borderRadius:"8px",
+            borderRadius: "8px",
 
-marginBottom:"15px",
+            marginBottom: "15px",
 
-textAlign:"center"
+            textAlign: "center"
 
-}}
+          }}
 
->
+        >
 
-{error}
+          {error}
 
-</div>
+        </div>
 
-}
+      }
 
-<input
+      <input
 
-type="email"
+        type="email"
 
-placeholder="Email"
+        placeholder="Email"
 
-value={email}
+        value={email}
 
-onChange={(e)=>setEmail(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)}
 
-style={{
+        style={{
 
-width:"100%",
+          width: "100%",
 
-padding:"14px",
+          padding: "14px",
 
-marginBottom:"15px",
+          marginBottom: "15px",
 
-borderRadius:"10px",
+          borderRadius: "10px",
 
-border:"1px solid #555",
+          border: "1px solid #555",
 
-background:"#111",
+          background: "#111",
 
-color:"white"
+          color: "white"
 
-}}
+        }}
 
-/>
+      />
 
-<input
+      <input
 
-type="password"
+        type="password"
 
-placeholder="Password"
+        placeholder="Password"
 
-value={password}
+        value={password}
 
-onChange={(e)=>setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
 
-style={{
+        style={{
 
-width:"100%",
+          width: "100%",
 
-padding:"14px",
+          padding: "14px",
 
-marginBottom:"10px",
+          marginBottom: "10px",
 
-borderRadius:"10px",
+          borderRadius: "10px",
 
-border:"1px solid #555",
+          border: "1px solid #555",
 
-background:"#111",
+          background: "#111",
 
-color:"white"
+          color: "white"
 
-}}
+        }}
 
-/>
+      />
 
-<div
+      <div
 
-style={{
+        style={{
 
-display:"flex",
+          display: "flex",
 
-justifyContent:"flex-end",
+          justifyContent: "flex-end",
 
-marginBottom:"20px"
+          marginBottom: "20px"
 
-}}
+        }}
 
->
+      >
 
-<Link
+        <Link
 
-to="/forgot-password"
+          to="/forgot-password"
 
-style={{
+          style={{
 
-color:"#d4af37",
+            color: "#d4af37",
 
-textDecoration:"none",
+            textDecoration: "none",
 
-fontSize:"14px"
+            fontSize: "14px"
 
-}}
+          }}
 
->
+        >
 
-Forgot Password?
+          Forgot Password?
 
-</Link>
+        </Link>
 
-</div>
+      </div>
 
-<button
+      <button
 
-onClick={handleLogin}
+        onClick={handleLogin}
 
-disabled={loading}
+        disabled={loading}
 
-style={{
+        style={{
 
-width:"100%",
+          width: "100%",
 
-padding:"14px",
+          padding: "14px",
 
-background:"#d4af37",
+          background: "#d4af37",
 
-color:"black",
+          color: "black",
 
-border:"none",
+          border: "none",
 
-borderRadius:"30px",
+          borderRadius: "30px",
 
-cursor:"pointer",
+          cursor: "pointer",
 
-fontWeight:"bold",
+          fontWeight: "bold",
 
-fontSize:"16px"
+          fontSize: "16px"
 
-}}
+        }}
 
->
+      >
 
-{
+        {
 
-loading
+          loading
 
-?
+            ?
 
-"Logging in..."
+            "Logging in..."
 
-:
+            :
 
-"LOGIN"
+            "LOGIN"
 
-}
+        }
 
-</button>
+      </button>
 
-<p
+      <p
 
-style={{
+        style={{
 
-marginTop:"20px",
+          marginTop: "20px",
 
-textAlign:"center",
+          textAlign: "center",
 
-color:"#ccc"
+          color: "#ccc"
 
-}}
+        }}
 
->
+      >
 
-Don't have an account?{" "}
+        Don't have an account?{" "}
 
-<Link
+        <Link
 
-to="/register"
+          to="/register"
 
-style={{
+          style={{
 
-color:"#d4af37"
+            color: "#d4af37"
 
-}}
+          }}
 
->
+        >
 
-Register
+          Register
 
-</Link>
+        </Link>
 
-</p>
+      </p>
 
-</AuthLayout>
+    </AuthLayout>
 
-);
+  );
 
 }
 
