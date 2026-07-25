@@ -25,13 +25,13 @@ const [email,setEmail] = useState(
 
 
 
-    const [editName,setEditName] = useState(false);
+ const [editName,setEditName] = useState(false);
 
-    const [editEmail,setEditEmail] = useState(false);
+const [editEmail,setEditEmail] = useState(false);
 
+const [oldPassword,setOldPassword] = useState("");
 
-
-    const [oldPassword,setOldPassword] = useState("");
+const [newPassword,setNewPassword] = useState("");
 
     
 
