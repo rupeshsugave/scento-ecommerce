@@ -1,7 +1,9 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+
+  baseURL: "https://scento-backend-8q5o.onrender.com/api"
+
 });
 
 export default api;
