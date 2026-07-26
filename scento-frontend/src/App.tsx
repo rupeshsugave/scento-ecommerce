@@ -21,7 +21,6 @@ import Wishlist from "./pages/Wishlist";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import ReturnPolicy from "./pages/ReturnPolicy";
 
-import RefreshRedirect from "./components/RefreshRedirect";
 import Footer from "./components/Footer";
 
 
@@ -33,7 +32,7 @@ function App() {
     <>
 
 
-      <RefreshRedirect />
+    
 
 
       <Routes>
