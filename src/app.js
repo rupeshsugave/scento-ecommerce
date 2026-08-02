@@ -18,15 +18,21 @@ app.use(cors());
 
 app.use(express.json());
 
+// Root route
+app.get("/", (req, res) => {
+    res.send("Scento Backend Running 🚀");
+});
+
 // Serve static image files
 app.use(
-  "/images",
-  express.static(path.join(__dirname, "../images"))
+    "/images",
+    express.static(path.join(__dirname, "../images"))
 );
 
-app.get("/", (req, res) => {
-  res.send("Scento Backend Running 🚀");
-});
+app.use(
+    "/images",
+    express.static(path.join(__dirname, "../public/images"))
+);
 
 // User Routes
 app.use("/api/users", userRoutes);
